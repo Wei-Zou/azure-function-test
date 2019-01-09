@@ -1,0 +1,21 @@
+type OrderInfo {
+  orderId: Int!
+  amountInCents: Int!
+  currency: String!
+}
+
+type Address {
+  street: String!
+  zip: Int!
+  state: String!
+  city: String!
+}
+
+type Info {
+  order: OrderInfo!
+  address: Address!
+}
+
+type Query {
+  getInfo: Info
+}
