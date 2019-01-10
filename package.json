@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "azurite": "azurite -l log/"
   },
   "author": "",
   "license": "ISC",
@@ -12,5 +13,8 @@
     "apollo-server-azure-functions": "2.3.1",
     "graphql": "14.0.2",
     "require-text": "0.0.1"
+  },
+  "devDependencies": {
+    "azurite": "2.7.0"
   }
 }

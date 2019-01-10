@@ -2,28 +2,28 @@ const { ApolloServer } = require("apollo-server-azure-functions");
 const requireText = require('require-text');
 const typeDefs = requireText('./schema.graphql', require);
 
-const serviceCall = async () => {
-  console.log('getting currency');
-  return 'USD';
-};
-
-const getCurrency = async () => {
-  return await serviceCall();
+const getCurrency = (context) => {
+  return async () => {
+    context.log('getting currency');
+    return 'USD';
+  };
 };
 
 const resolvers = {
   Query: {
     getInfo: () => ({
-      order: () => {
-        console.log('getting order');
+      order: (_params, { context, data }, reqInfo) => {
+        context.log('getting order');
+        context.log(data);
         return {
           orderId: 1234,
           amountInCents: 9999,
-          currency: getCurrency,
+          currency: getCurrency(context),
         };
       },
-      address: () => {
-        console.log('getting address');
+      address: (_params, { context, data }, reqInfo) => {
+        context.log('getting address');
+        context.log(data);
         return {
           street: '860 W California Ave',
           zip: 94086,
@@ -35,6 +35,10 @@ const resolvers = {
   },
 };
 
-const server = new ApolloServer({ typeDefs, resolvers });
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
+  context: ctx => ({ context: ctx.context, data: 'hello' }),
+});
 
 module.exports = server.createHandler();
